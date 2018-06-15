@@ -1,0 +1,32 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}
+
+task copyImages (type: Copy) {
+    exclude '*.gif'
+    from 'src'
+    into 'dest'
+}
+
+def contentSpec = copySpec {
+    //exclude '*.gif'
+    exclude {
+        it.file.name.contains('Oracle')
+    }
+    from 'src'
+}
+
+task copyImages2 (type: Copy) {
+    with contentSpec
+    into 'dest'
+}
+
+
+task copyConfig (type: Copy) {
+    include 'web.xml'
+    from 'src'
+    into 'config'
+    expand (
+        [resourceRefName: 'jdbc/JacketDB']
+    )
+}
